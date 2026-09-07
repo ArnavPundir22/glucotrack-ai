@@ -48,7 +48,14 @@ router.post('/insights', async (req, res) => {
     let structuredInsights = null;
 
     if (apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE') {
-      const modelNames = ['gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-flash-latest'];
+      const modelNames = [
+        'gemini-3.5-flash-lite',
+        'gemini-3.5-flash',
+        'gemini-3.7-flash',
+        'gemini-flash-latest',
+        'gemini-3.8-flash',
+        'gemini-3.6-flash',
+      ];
 
       for (const modelName of modelNames) {
         try {

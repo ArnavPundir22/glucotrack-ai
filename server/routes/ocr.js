@@ -11,17 +11,31 @@ const upload = multer({
 });
 
 const OCR_PROMPT = `
-You are an expert medical computer vision assistant specialized in high-precision optical character recognition (OCR) for handheld blood glucometer display screens (e.g. Accu-Chek, OneTouch, Contour Next, Freestyle Lite, True Metrix, Bayer).
+You are a specialized medical computer vision assistant trained on optical character recognition (OCR) for handheld blood glucose meters (e.g. Accu-Chek, OneTouch, Contour Next, Freestyle Lite, True Metrix, Dr. Morepen, Roche, Bayer).
 
-INSTRUCTIONS:
-1. Carefully inspect the main digital LCD/OLED display screen shown in the image.
-2. Read the numeric blood glucose value displayed (e.g., 120, 105, 126, 6.8). Examine each digit independently.
-3. Identify the unit of measurement ("mg/dL" or "mmol/L"). Standard numeric rule: values > 30 are mg/dL, values < 30 are mmol/L.
-4. Estimate visual confidence score (0.0 to 1.0).
-5. Detect device brand if visible on the frame.
-6. Detect meal context indicator icon if present on the screen (fasting, pre-meal, post-meal).
+CRITICAL DISPLAY ANALYSIS RULES:
+1. FOCUS ONLY ON GLUCOSE DISPLAY:
+   - Identify the main digital display screen of the glucometer device.
+   - Ignore peripheral digits such as clock time (e.g., "12:30"), date ("09/07"), memory slot indexes ("MEM 01", "LOG 03"), or test strip code numbers ("C25").
+   - Extract ONLY the primary, largest numeric reading representing blood glucose level.
 
-Return ONLY a raw JSON object matching this exact schema:
+2. 7-SEGMENT DIGITAL DISPLAY GEOMETRY & PARSING RULES:
+   - LCD displays use 7-segment digital digits. Examine segment lines carefully.
+   - Distinguish '8' (all 7 segments lit) vs '0' (middle segment unlit).
+   - Distinguish '6' (top, middle, bottom, left-top, left-bottom, right-bottom) vs '5' vs '9'.
+   - Distinguish '1' (right-top, right-bottom) vs '7' (top, right-top, right-bottom).
+   - Carefully look for decimal points (e.g. "6.8" vs "68", "12.4" vs "124").
+
+3. UNIT IDENTIFICATION RULES:
+   - Check if unit text ("mg/dL" or "mmol/L") is visible on screen.
+   - If unit text is unreadable/missing: values > 30 are mg/dL; values < 30 are mmol/L.
+
+4. CONFIDENCE & CONTEXT:
+   - Assign visual confidence score (0.0 to 1.0) based on image clarity, lighting, and LCD contrast.
+   - Detect meal context icon if present (fasting/apple core, pre-meal, post-meal).
+   - Detect glucometer brand if printed on bezel or display screen.
+
+Return ONLY a JSON object with this exact structure:
 {
   "value": number,
   "unit": "mg/dL" | "mmol/L",
@@ -30,7 +44,7 @@ Return ONLY a raw JSON object matching this exact schema:
   "suggested_meal_context": "fasting" | "pre_meal" | "post_meal" | "bedtime" | "random",
   "device_brand": string | null
 }
-Do NOT include markdown block tags or extra conversational text.
+Do NOT include markdown backticks or extra text outside JSON.
 `;
 
 router.post('/extract', upload.single('image'), async (req, res) => {
@@ -58,9 +72,17 @@ router.post('/extract', upload.single('image'), async (req, res) => {
     const apiKey = process.env.GEMINI_API_KEY;
     let extractedData = null;
     let isAiProcessed = false;
+    let lastError = null;
 
     if (apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE') {
-      const modelNames = ['gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-flash-latest'];
+      const modelNames = [
+        'gemini-3.5-flash-lite',
+        'gemini-3.5-flash',
+        'gemini-3.7-flash',
+        'gemini-flash-latest',
+        'gemini-3.8-flash',
+        'gemini-3.6-flash',
+      ];
 
       for (const modelName of modelNames) {
         try {
@@ -81,20 +103,31 @@ router.post('/extract', upload.single('image'), async (req, res) => {
 
           const jsonMatch = responseText.match(/\{[\s\S]*\}/);
           if (jsonMatch) {
-            extractedData = JSON.parse(jsonMatch[0]);
-            isAiProcessed = true;
-            console.log(`[OCR Service] Successfully extracted reading with ${modelName}:`, extractedData);
-            break;
+            const parsed = JSON.parse(jsonMatch[0]);
+            if (parsed && typeof parsed.value === 'number' && !isNaN(parsed.value) && parsed.value > 0) {
+              extractedData = parsed;
+              isAiProcessed = true;
+              console.log(`[OCR Service] Successfully extracted reading with ${modelName}:`, extractedData);
+              break;
+            }
           }
         } catch (geminiErr) {
+          lastError = geminiErr.message;
           console.warn(`[OCR Service] Gemini model ${modelName} error:`, geminiErr.message);
+          if (geminiErr.message.includes('429')) {
+            await new Promise((resolve) => setTimeout(resolve, 1500));
+          }
         }
       }
     }
 
     if (!extractedData) {
-      console.log('[OCR Service] Running vision extraction simulation fallback mode...');
-      extractedData = simulateOcrExtraction(base64Clean);
+      console.warn('[OCR Service] Vision extraction could not resolve reading:', lastError);
+      return res.status(422).json({
+        status: 'error',
+        message: 'Could not clearly read the blood glucose value from this image. Please ensure proper screen lighting and focus, or enter the reading manually.',
+        error: lastError,
+      });
     }
 
     let valMgDl = extractedData.value;
@@ -133,26 +166,5 @@ router.post('/extract', upload.single('image'), async (req, res) => {
     });
   }
 });
-
-function simulateOcrExtraction(base64Str) {
-  const hash = base64Str ? base64Str.length % 5 : 0;
-  const simulatedReadings = [
-    { value: 120, unit: 'mg/dL', confidence: 0.96, meal: 'fasting', brand: 'Accu-Chek Guide' },
-    { value: 105, unit: 'mg/dL', confidence: 0.94, meal: 'post_meal', brand: 'OneTouch Verio' },
-    { value: 126, unit: 'mg/dL', confidence: 0.98, meal: 'pre_meal', brand: 'Contour Next' },
-    { value: 142, unit: 'mg/dL', confidence: 0.92, meal: 'post_meal', brand: 'Freestyle Lite' },
-    { value: 6.8, unit: 'mmol/L', confidence: 0.95, meal: 'fasting', brand: 'Accu-Chek Instant' },
-  ];
-
-  const match = simulatedReadings[hash] || simulatedReadings[0];
-  return {
-    value: match.value,
-    unit: match.unit,
-    confidence: match.confidence,
-    detected_timestamp: new Date().toISOString(),
-    suggested_meal_context: match.meal,
-    device_brand: match.brand,
-  };
-}
 
 export default router;
