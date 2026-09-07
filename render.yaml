@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: glucotrack-ai
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: node server/index.js
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+    disk:
+      name: glucotrack-db
+      mountPath: /app/data
+      sizeGB: 1
+

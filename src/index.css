@@ -1,0 +1,296 @@
+/* GlucoTrack AI - Exact Wireframe Layout Design System */
+:root {
+  /* Wireframe Color System */
+  --bg-app: #e2e8f0;            /* Outer Page Background */
+  --bg-shell: #ffffff;          /* Outer Frame Container */
+  --bg-top-dark: #1e293b;       /* Top Hero Dark Slate Card */
+  --bg-bottom-light: #f8fafc;   /* Bottom Section Light Slate */
+  --bg-card-white: #ffffff;     /* White Card Surface */
+  --border-dark: #334155;       /* Dark Card Border */
+  --border-light: #e2e8f0;      /* Light Card Border */
+
+  /* Text Tokens */
+  --text-dark-primary: #f8fafc;
+  --text-dark-secondary: #94a3b8;
+  --text-light-primary: #0f172a;
+  --text-light-secondary: #475569;
+  --text-accent: #38bdf8;
+
+  /* Clinical Range Tokens */
+  --color-target: #059669;
+  --color-high: #d97706;
+  --color-low: #dc2626;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  --gradient-ai: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+
+  /* UI Tokens */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  --shadow-shell: 0 20px 50px rgba(15, 23, 42, 0.15);
+  --shadow-card: 0 8px 24px rgba(15, 23, 42, 0.04);
+  --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #cbd5e1;
+  color: var(--text-light-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  padding: 20px 10px;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Outer Glass App Shell Container (Wireframe Frame) */
+.wireframe-app-shell {
+  max-width: 1240px;
+  margin: 0 auto;
+  background: var(--bg-shell);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-shell);
+  overflow: hidden;
+  padding: 16px;
+}
+
+/* Top Dark Card Section */
+.top-wireframe-card {
+  background: var(--bg-top-dark);
+  border-radius: 22px;
+  padding: 24px;
+  color: var(--text-dark-primary);
+  position: relative;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+}
+
+/* Joint Circular Node at bottom center of top card */
+.joint-circle-node {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #334155;
+  border: 4px solid var(--bg-shell);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #38bdf8;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Bottom Light Section */
+.bottom-wireframe-section {
+  background: var(--bg-bottom-light);
+  border-radius: 22px;
+  padding: 32px 24px 24px;
+  margin-top: 12px;
+}
+
+/* Bottom Grid Layout */
+.bottom-wireframe-grid {
+  display: grid;
+  gridTemplateColumns: repeat(12, 1fr);
+  gap: 20px;
+}
+
+.vertical-card-col {
+  grid-column: span 3;
+}
+
+.ai-card-col {
+  grid-column: span 6;
+}
+
+@media (max-width: 992px) {
+  .vertical-card-col {
+    grid-column: span 6;
+  }
+  .ai-card-col {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 640px) {
+  .vertical-card-col {
+    grid-column: span 12;
+  }
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  outline: none;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+
+.btn-ai {
+  background: var(--gradient-ai);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);
+}
+
+.btn-secondary {
+  background: #334155;
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:hover {
+  background: #475569;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-target {
+  background: rgba(5, 150, 105, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(5, 150, 105, 0.3);
+}
+
+.badge-high {
+  background: rgba(217, 119, 6, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+.badge-low {
+  background: rgba(220, 38, 38, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+.badge-cyan {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+  padding: 24px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scannerSweep {
+  0% { top: 10%; opacity: 0.3; }
+  50% { top: 85%; opacity: 0.9; }
+  100% { top: 10%; opacity: 0.3; }
+}
+
+.scanner-laser-line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #38bdf8 50%, transparent 100%);
+  box-shadow: 0 0 12px #38bdf8;
+  animation: scannerSweep 2.5s ease-in-out infinite;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
