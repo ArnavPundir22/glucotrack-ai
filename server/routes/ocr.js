@@ -84,11 +84,9 @@ router.post('/extract', upload.single('image'), async (req, res) => {
     let lastError = null;
 
     const modelNames = [
-      'gemini-2.0-flash',
-      'gemini-2.0-flash-lite',
       'gemini-3.6-flash',
-      'gemini-3.6-flash-lite',
-      'gemini-1.5-flash-8b',
+      'gemini-3.5-flash-lite',
+      'gemini-3.5-flash',
     ];
 
     keyLoop: for (let kIdx = 0; kIdx < apiKeys.length; kIdx++) {
