@@ -55,7 +55,7 @@ export default function AIHealthInsights({
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <h3 style={{ fontSize: '1.2rem', color: '#0f172a', fontWeight: 700, margin: 0 }}>
-                  Gemini AI Health Insights
+                  GlucoTrack AI Health Insights
                 </h3>
                 <span className="badge badge-cyan" style={{ fontSize: '0.65rem' }}>
                   Live Clinical AI
@@ -90,7 +90,7 @@ export default function AIHealthInsights({
             <Activity size={32} color="#0284c7" style={{ marginBottom: '8px' }} />
             <h4 style={{ color: '#0f172a', marginBottom: '4px', fontSize: '0.95rem' }}>Ready for Your First Log</h4>
             <p style={{ fontSize: '0.82rem', color: '#64748b', maxWidth: '420px', margin: '0 auto' }}>
-              Add a glucometer reading or photo log to unlock real-time Gemini AI metabolic advice.
+              Add a glucometer reading or photo log to unlock real-time GlucoTrack AI metabolic advice.
             </p>
           </div>
         ) : (

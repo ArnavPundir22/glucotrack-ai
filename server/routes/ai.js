@@ -26,7 +26,7 @@ router.post('/insights', async (req, res) => {
       return res.status(200).json({
         status: 'success',
         is_empty: true,
-        summary: 'No readings logged yet for this period. Snap a photo of your glucometer display or log a reading manually to unlock personalized Gemini AI metabolic insights.',
+        summary: 'No readings logged yet for this period. Snap a photo of your glucometer display or log a reading manually to unlock personalized GlucoTrack AI metabolic insights.',
         patterns: [],
         recommendations: [],
         disclaimer: 'GlucoTrack AI provides analytical pattern identification for informational purposes only. Consult your physician for clinical decisions.',
@@ -49,12 +49,11 @@ router.post('/insights', async (req, res) => {
 
     if (apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE') {
       const modelNames = [
-        'gemini-3.5-flash-lite',
-        'gemini-3.5-flash',
-        'gemini-3.7-flash',
-        'gemini-flash-latest',
-        'gemini-3.8-flash',
-        'gemini-3.6-flash',
+        'gemini-1.5-flash',
+        'gemini-2.0-flash-exp',
+        'gemini-2.5-flash',
+        'gemini-1.5-flash-latest',
+        'gemini-1.5-pro',
       ];
 
       for (const modelName of modelNames) {

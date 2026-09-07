@@ -29,7 +29,7 @@ export default function HeroCapture({ onOpenSnap, onOpenManual }) {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
             <span className="badge badge-cyan" style={{ padding: '5px 12px', fontSize: '0.72rem' }}>
-              <Sparkles size={13} /> Gemini Vision 2.5 AI Powered
+              <Sparkles size={13} /> GlucoTrack AI Powered
             </span>
             <span style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
               <ShieldCheck size={14} color="#059669" /> ISO 15197 Standard

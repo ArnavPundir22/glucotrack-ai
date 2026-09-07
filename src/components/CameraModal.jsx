@@ -152,7 +152,7 @@ export default function CameraModal({ isOpen, onClose, onImageCaptured, isAnalyz
           {isAnalyzing ? (
             <div style={{ textAlign: 'center', padding: '20px' }}>
               <Sparkles size={48} className="spin-animation" color="#7c3aed" style={{ animation: 'spin 2s linear infinite', marginBottom: '12px' }} />
-              <h4 style={{ color: '#ffffff', marginBottom: '6px', fontWeight: 700 }}>Gemini AI Extracting Reading...</h4>
+              <h4 style={{ color: '#ffffff', marginBottom: '6px', fontWeight: 700 }}>GlucoTrack AI Extracting Reading...</h4>
               <p style={{ fontSize: '0.82rem', color: '#94a3b8' }}>
                 Analyzing digital LCD segments, measurement units, and meal context
               </p>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Camera, Plus, Activity, Download, Smartphone, Wifi, WifiOff, User, LogIn, LogOut, X, Sparkles } from 'lucide-react';
+import { Camera, Plus, Activity, Download, Smartphone, Wifi, WifiOff, User, LogIn, LogOut, X, Sparkles, Menu } from 'lucide-react';
 import CameraModal from './components/CameraModal';
 import VerificationModal from './components/VerificationModal';
 import AuthModal from './components/AuthModal';
@@ -8,10 +8,16 @@ import TIRDonutChart from './components/TIRDonutChart';
 import MealContextChart from './components/MealContextChart';
 import AIHealthInsights from './components/AIHealthInsights';
 import LogbookTable from './components/LogbookTable';
+import SidePanel from './components/SidePanel';
+import MobileBottomNav from './components/MobileBottomNav';
 import { usePWAState } from './pwaRegister';
 
 export default function App() {
   const pwaState = usePWAState();
+
+  // Side Panel & Section Navigation State
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('dashboard');
 
   // Auth & User States
   const [token, setToken] = useState(() => localStorage.getItem('glucotrack_token') || null);
@@ -258,14 +264,56 @@ export default function App() {
   return (
     <div className="wireframe-app-shell">
       
+      {/* Side Panel Navigation Drawer */}
+      <SidePanel
+        isOpen={isSidePanelOpen}
+        onClose={() => setIsSidePanelOpen(false)}
+        user={user}
+        onLogout={handleLogout}
+        onOpenAuth={() => setIsAuthOpen(true)}
+        preferredUnit={preferredUnit}
+        setPreferredUnit={setPreferredUnit}
+        periodDays={periodDays}
+        setPeriodDays={setPeriodDays}
+        onOpenSnap={handleOpenSnap}
+        onOpenManual={handleOpenManual}
+        pwaState={pwaState}
+        onExportCSV={handleExportCSV}
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+      />
+
       {/* TOP WIREFRAME CARD (Dark Slate Container #1e293b) */}
-      <div className="top-wireframe-card">
+      <div className="top-wireframe-card" id="dashboard">
         
         {/* Top Control Bar inside Dark Card */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
           
-          {/* Top Left: Unit Switch Toggle */}
-          <div style={{ display: 'flex', background: '#334155', borderRadius: '20px', padding: '3px', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {/* Native Mobile / Desktop Hamburger Drawer Toggle */}
+            <button
+              onClick={() => setIsSidePanelOpen(true)}
+              style={{
+                background: '#334155',
+                border: '1px solid rgba(255,255,255,0.15)',
+                color: '#ffffff',
+                borderRadius: '12px',
+                width: '40px',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'var(--transition)',
+              }}
+              title="Open Navigation Menu"
+              aria-label="Open Navigation Side Panel"
+            >
+              <Menu size={20} />
+            </button>
+
+            {/* Top Left: Unit Switch Toggle */}
+            <div style={{ display: 'flex', background: '#334155', borderRadius: '20px', padding: '3px', border: '1px solid rgba(255,255,255,0.1)' }}>
             <button
               onClick={() => setPreferredUnit('mg/dL')}
               style={{
@@ -571,7 +619,7 @@ export default function App() {
         )}
 
         {/* Bento Grid: 2 Vertical Bento Cards on Left + AI Card on Right */}
-        <div className="bottom-wireframe-grid" style={{ marginBottom: '24px' }}>
+        <div className="bottom-wireframe-grid" id="analytics" style={{ marginBottom: '24px' }}>
           
           {/* Bento 1: Vertical Card 1 (TIR Donut Chart & Breakdown) */}
           <div className="vertical-card-col">
@@ -590,7 +638,7 @@ export default function App() {
           </div>
 
           {/* Bento 3: Right AI Card (AI Insights + Circular Ring Gauge Widget) */}
-          <div className="ai-card-col">
+          <div className="ai-card-col" id="insights">
             <AIHealthInsights
               insightsData={insights}
               onGenerateInsights={() => fetchAiInsights(periodDays)}
@@ -602,15 +650,24 @@ export default function App() {
         </div>
 
         {/* Integrated Logbook Table at bottom */}
-        <LogbookTable
-          readings={readings}
-          preferredUnit={preferredUnit}
-          onEditReading={handleEditReading}
-          onDeleteReading={handleDeleteReading}
-          onOpenManual={handleOpenManual}
-        />
+        <div id="logbook">
+          <LogbookTable
+            readings={readings}
+            preferredUnit={preferredUnit}
+            onEditReading={handleEditReading}
+            onDeleteReading={handleDeleteReading}
+            onOpenManual={handleOpenManual}
+          />
+        </div>
 
       </div>
+
+      {/* Native Mobile Bottom Action & Navigation Bar */}
+      <MobileBottomNav
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+        onOpenSnap={handleOpenSnap}
+      />
 
       {/* Auth Login / Registration Modal */}
       <AuthModal
