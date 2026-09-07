@@ -62,4 +62,20 @@ app.listen(PORT, () => {
   console.log(`  🩸 GlucoTrack AI Backend running on port ${PORT}`);
   console.log(`  🔗 Health Check: http://localhost:${PORT}/api/v1/health`);
   console.log(`=======================================================`);
+
+  // Render Anti-Idle Keep-Alive Worker (Self-pings every 4 minutes to keep instance awake 24/7)
+  const PING_INTERVAL_MS = 4 * 60 * 1000; // 4 minutes
+  const RENDER_APP_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
+
+  setInterval(async () => {
+    try {
+      const healthUrl = `${RENDER_APP_URL}/api/v1/health`;
+      const res = await fetch(healthUrl);
+      const data = await res.json();
+      console.log(`[Keep-Alive Worker]: Self-pinged ${healthUrl} successfully at ${new Date().toISOString()} (Status: ${data.status})`);
+    } catch (err) {
+      console.warn(`[Keep-Alive Worker Notice]: Self-ping attempt to ${RENDER_APP_URL} skipped/warned:`, err.message);
+    }
+  }, PING_INTERVAL_MS);
 });
+
