@@ -10,6 +10,7 @@ import AIHealthInsights from './components/AIHealthInsights';
 import LogbookTable from './components/LogbookTable';
 import SidePanel from './components/SidePanel';
 import MobileBottomNav from './components/MobileBottomNav';
+import PWAInstallModal from './components/PWAInstallModal';
 import { usePWAState } from './pwaRegister';
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
   // Side Panel & Section Navigation State
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('dashboard');
+  const [isPwaModalOpen, setIsPwaModalOpen] = useState(false);
 
   // Auth & User States
   const [token, setToken] = useState(() => localStorage.getItem('glucotrack_token') || null);
@@ -131,6 +133,31 @@ export default function App() {
     if (message) {
       setWelcomeMessage(message);
     }
+
+    // Auto prompt PWA download pop-up for 1st time logged in users
+    if (userData?.id && !pwaState.isInstalled) {
+      const hasPrompted = localStorage.getItem(`pwa_prompted_${userData.id}`);
+      if (!hasPrompted) {
+        setTimeout(() => {
+          setIsPwaModalOpen(true);
+        }, 500);
+      }
+    }
+  };
+
+  const handleClosePwaModal = () => {
+    if (user?.id) {
+      localStorage.setItem(`pwa_prompted_${user.id}`, 'true');
+    }
+    setIsPwaModalOpen(false);
+  };
+
+  const handleInstallPWA = async () => {
+    if (user?.id) {
+      localStorage.setItem(`pwa_prompted_${user.id}`, 'true');
+    }
+    setIsPwaModalOpen(false);
+    await pwaState.triggerInstall();
   };
 
   const handleLogout = () => {
@@ -667,6 +694,13 @@ export default function App() {
         ocrResult={ocrResult}
         isManual={isManual}
         onSaveReading={handleSaveReading}
+      />
+
+      {/* 1st Time Login PWA Download Pop-up Modal */}
+      <PWAInstallModal
+        isOpen={isPwaModalOpen}
+        onClose={handleClosePwaModal}
+        onInstall={handleInstallPWA}
       />
 
     </div>
