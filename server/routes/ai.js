@@ -44,17 +44,29 @@ router.post('/insights', async (req, res) => {
     const postMealSpikes = readings.filter((r) => r.meal_context === 'post_meal' && r.value_mgdl > 180);
     const fastingHigh = readings.filter((r) => r.meal_context === 'fasting' && r.value_mgdl > 115);
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKeys = [];
+    if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'YOUR_PRIMARY_GEMINI_API_KEY' && process.env.GEMINI_API_KEY !== 'YOUR_GEMINI_API_KEY_HERE') {
+      apiKeys.push(process.env.GEMINI_API_KEY);
+    }
+    if (process.env.GEMINI_API_KEY_FALLBACK && process.env.GEMINI_API_KEY_FALLBACK !== 'YOUR_FALLBACK_GEMINI_API_KEY') {
+      if (!apiKeys.includes(process.env.GEMINI_API_KEY_FALLBACK)) {
+        apiKeys.push(process.env.GEMINI_API_KEY_FALLBACK);
+      }
+    }
+
     let structuredInsights = null;
 
-    if (apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE') {
-      const modelNames = [
-        'gemini-2.0-flash',
-        'gemini-2.0-flash-lite',
-        'gemini-3.6-flash',
-        'gemini-3.6-flash-lite',
-        'gemini-1.5-flash-8b',
-      ];
+    const modelNames = [
+      'gemini-2.0-flash',
+      'gemini-2.0-flash-lite',
+      'gemini-3.6-flash',
+      'gemini-3.6-flash-lite',
+      'gemini-1.5-flash-8b',
+    ];
+
+    keyLoop: for (let kIdx = 0; kIdx < apiKeys.length; kIdx++) {
+      const apiKey = apiKeys[kIdx];
+      console.log(`[AI Advisor] Using API Key #${kIdx + 1}...`);
 
       for (const modelName of modelNames) {
         try {
@@ -100,7 +112,7 @@ Return ONLY a valid JSON object with NO MARKDOWN formatting, matching this exact
           if (jsonMatch) {
             structuredInsights = JSON.parse(jsonMatch[0]);
             console.log(`[AI Advisor] Success with model: ${modelName}`);
-            break;
+            break keyLoop;
           }
         } catch (geminiErr) {
           console.warn(`[AI Advisor] Gemini model ${modelName} error:`, geminiErr.message);

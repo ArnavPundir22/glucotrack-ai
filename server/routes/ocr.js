@@ -69,19 +69,31 @@ router.post('/extract', upload.single('image'), async (req, res) => {
       });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKeys = [];
+    if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'YOUR_PRIMARY_GEMINI_API_KEY' && process.env.GEMINI_API_KEY !== 'YOUR_GEMINI_API_KEY_HERE') {
+      apiKeys.push(process.env.GEMINI_API_KEY);
+    }
+    if (process.env.GEMINI_API_KEY_FALLBACK && process.env.GEMINI_API_KEY_FALLBACK !== 'YOUR_FALLBACK_GEMINI_API_KEY') {
+      if (!apiKeys.includes(process.env.GEMINI_API_KEY_FALLBACK)) {
+        apiKeys.push(process.env.GEMINI_API_KEY_FALLBACK);
+      }
+    }
+
     let extractedData = null;
     let isAiProcessed = false;
     let lastError = null;
 
-    if (apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE') {
-      const modelNames = [
-        'gemini-2.0-flash',
-        'gemini-2.0-flash-lite',
-        'gemini-3.6-flash',
-        'gemini-3.6-flash-lite',
-        'gemini-1.5-flash-8b',
-      ];
+    const modelNames = [
+      'gemini-2.0-flash',
+      'gemini-2.0-flash-lite',
+      'gemini-3.6-flash',
+      'gemini-3.6-flash-lite',
+      'gemini-1.5-flash-8b',
+    ];
+
+    keyLoop: for (let kIdx = 0; kIdx < apiKeys.length; kIdx++) {
+      const apiKey = apiKeys[kIdx];
+      console.log(`[OCR Service] Using API Key #${kIdx + 1}...`);
 
       for (const modelName of modelNames) {
         try {
@@ -107,7 +119,7 @@ router.post('/extract', upload.single('image'), async (req, res) => {
               extractedData = parsed;
               isAiProcessed = true;
               console.log(`[OCR Service] Successfully extracted reading with ${modelName}:`, extractedData);
-              break;
+              break keyLoop;
             }
           }
         } catch (geminiErr) {
