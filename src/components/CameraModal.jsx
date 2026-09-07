@@ -223,7 +223,6 @@ export default function CameraModal({ isOpen, onClose, onImageCaptured, isAnalyz
           type="file"
           ref={fileInputRef}
           accept="image/*"
-          capture="environment"
           style={{ display: 'none' }}
           onChange={handleFileUpload}
         />
