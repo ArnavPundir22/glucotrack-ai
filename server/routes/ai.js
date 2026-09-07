@@ -49,10 +49,11 @@ router.post('/insights', async (req, res) => {
 
     if (apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE') {
       const modelNames = [
+        'gemini-2.0-flash',
+        'gemini-2.0-flash-lite',
         'gemini-3.6-flash',
-        'gemini-2.5-flash',
-        'gemini-2.0-flash-exp',
-        'gemini-1.5-flash',
+        'gemini-3.6-flash-lite',
+        'gemini-1.5-flash-8b',
       ];
 
       for (const modelName of modelNames) {

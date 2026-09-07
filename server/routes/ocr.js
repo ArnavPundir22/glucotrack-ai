@@ -76,10 +76,11 @@ router.post('/extract', upload.single('image'), async (req, res) => {
 
     if (apiKey && apiKey !== 'YOUR_GEMINI_API_KEY_HERE') {
       const modelNames = [
+        'gemini-2.0-flash',
+        'gemini-2.0-flash-lite',
         'gemini-3.6-flash',
-        'gemini-2.5-flash',
-        'gemini-2.0-flash-exp',
-        'gemini-1.5-flash',
+        'gemini-3.6-flash-lite',
+        'gemini-1.5-flash-8b',
       ];
 
       for (const modelName of modelNames) {
@@ -112,18 +113,18 @@ router.post('/extract', upload.single('image'), async (req, res) => {
         } catch (geminiErr) {
           lastError = geminiErr.message;
           console.warn(`[OCR Service] Gemini model ${modelName} error:`, geminiErr.message);
-          if (geminiErr.message.includes('429')) {
-            await new Promise((resolve) => setTimeout(resolve, 1500));
-          }
         }
       }
     }
 
     if (!extractedData) {
       console.warn('[OCR Service] Vision extraction could not resolve reading:', lastError);
+      const isQuotaError = lastError && lastError.includes('429');
       return res.status(422).json({
         status: 'error',
-        message: 'Could not clearly read the blood glucose value from this image. Please ensure proper screen lighting and focus, or enter the reading manually.',
+        message: isQuotaError
+          ? 'Google Gemini API daily free tier quota exceeded. Please wait a short moment or enter your reading manually.'
+          : 'Could not clearly read the blood glucose value from this image. Please ensure proper screen lighting and focus, or enter the reading manually.',
         error: lastError,
       });
     }
