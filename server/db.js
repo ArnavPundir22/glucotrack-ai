@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const dbPath = path.join(__dirname, '..', 'glucotrack.db');
+const dbPath = process.env.DB_PATH || path.join(__dirname, '..', 'glucotrack.db');
 const sqlite = new sqlite3.Database(dbPath);
 
 export const db = {
