@@ -347,9 +347,10 @@ export default function App() {
               mmol/L
             </button>
           </div>
+        </div>
 
-          {/* Top Right: User Account Profile Pill & 3 Action Badges */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Top Right: User Account Profile Pill & 3 Action Badges */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             
             {/* User Profile Pill / Login button */}
             {user ? (
