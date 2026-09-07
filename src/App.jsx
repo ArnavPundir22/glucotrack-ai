@@ -286,11 +286,11 @@ export default function App() {
       {/* TOP WIREFRAME CARD (Dark Slate Container #1e293b) */}
       <div className="top-wireframe-card" id="dashboard">
         
-        {/* Top Control Bar inside Dark Card */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
+        {/* Top Control Header Bar inside Dark Card */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
           
+          {/* Left: Navigation Menu Drawer Toggle & Brand */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            {/* Native Mobile / Desktop Hamburger Drawer Toggle */}
             <button
               onClick={() => setIsSidePanelOpen(true)}
               style={{
@@ -312,95 +312,84 @@ export default function App() {
               <Menu size={20} />
             </button>
 
-            {/* Top Left: Unit Switch Toggle */}
-            <div style={{ display: 'flex', background: '#334155', borderRadius: '20px', padding: '3px', border: '1px solid rgba(255,255,255,0.1)' }}>
-            <button
-              onClick={() => setPreferredUnit('mg/dL')}
-              style={{
-                padding: '5px 14px',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                borderRadius: '16px',
-                border: 'none',
-                cursor: 'pointer',
-                background: preferredUnit === 'mg/dL' ? '#0284c7' : 'transparent',
-                color: '#ffffff',
-                transition: 'var(--transition)',
-              }}
-            >
-              mg/dL
-            </button>
-            <button
-              onClick={() => setPreferredUnit('mmol/L')}
-              style={{
-                padding: '5px 14px',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                borderRadius: '16px',
-                border: 'none',
-                cursor: 'pointer',
-                background: preferredUnit === 'mmol/L' ? '#0284c7' : 'transparent',
-                color: '#ffffff',
-                transition: 'var(--transition)',
-              }}
-            >
-              mmol/L
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ width: '34px', height: '34px', borderRadius: '10px', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <Activity size={20} color="#ffffff" />
+              </div>
+              <div>
+                <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', margin: 0, lineHeight: 1.1 }}>
+                  GlucoTrack <span style={{ color: '#38bdf8' }}>AI</span>
+                </h1>
+                <p style={{ fontSize: '0.74rem', color: '#94a3b8', margin: 0 }}>
+                  Smart Glucometer Analytics
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
 
-        {/* Top Right: User Account Profile Pill & 3 Action Badges */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {/* Right Controls: Unit Toggle, Period Filter Pills, Badges */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             
-            {/* User Profile Pill / Login button */}
-            {user ? (
-              <div
+            {/* Unit Switch Toggle */}
+            <div style={{ display: 'flex', background: '#334155', borderRadius: '20px', padding: '3px', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <button
+                onClick={() => setPreferredUnit('mg/dL')}
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  background: '#334155',
-                  padding: '4px 12px 4px 6px',
-                  borderRadius: '20px',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                }}
-              >
-                <div style={{
-                  width: '26px',
-                  height: '26px',
-                  borderRadius: '50%',
-                  background: 'var(--gradient-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#ffffff',
+                  padding: '5px 12px',
                   fontSize: '0.75rem',
                   fontWeight: 700,
-                }}>
-                  {user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
-                </div>
-                <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#f8fafc' }}>
-                  {user.full_name}
-                </span>
-                <button
-                  onClick={handleLogout}
-                  style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '2px', display: 'flex', alignItems: 'center' }}
-                  title="Sign Out"
-                >
-                  <LogOut size={14} />
-                </button>
-              </div>
-            ) : (
-              <button
-                className="btn btn-primary btn-sm"
-                onClick={() => setIsAuthOpen(true)}
-                style={{ padding: '6px 14px', borderRadius: '16px', fontSize: '0.78rem' }}
+                  borderRadius: '16px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  background: preferredUnit === 'mg/dL' ? '#0284c7' : 'transparent',
+                  color: '#ffffff',
+                  transition: 'var(--transition)',
+                }}
               >
-                <LogIn size={14} /> Patient Login
+                mg/dL
               </button>
-            )}
+              <button
+                onClick={() => setPreferredUnit('mmol/L')}
+                style={{
+                  padding: '5px 12px',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  borderRadius: '16px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  background: preferredUnit === 'mmol/L' ? '#0284c7' : 'transparent',
+                  color: '#ffffff',
+                  transition: 'var(--transition)',
+                }}
+              >
+                mmol/L
+              </button>
+            </div>
 
-            {/* Badge 1: Network / Offline */}
+            {/* Period Pills Filter (7D, 14D, 30D, 90D) */}
+            <div style={{ display: 'flex', gap: '4px', background: '#334155', padding: '3px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
+              {[7, 14, 30, 90].map((days) => (
+                <button
+                  key={days}
+                  onClick={() => setPeriodDays(days)}
+                  style={{
+                    padding: '4px 10px',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    borderRadius: '12px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    background: periodDays === days ? '#0284c7' : 'transparent',
+                    color: periodDays === days ? '#ffffff' : '#94a3b8',
+                    transition: 'var(--transition)',
+                  }}
+                >
+                  {days}D
+                </button>
+              ))}
+            </div>
+
+            {/* Network Sync Status Badge */}
             <div
               style={{
                 background: '#334155',
@@ -417,26 +406,28 @@ export default function App() {
               {pwaState.isOnline ? <Wifi size={14} /> : <WifiOff size={14} />}
             </div>
 
-            {/* Badge 2: PWA / Install */}
-            <div
-              onClick={pwaState.isInstallable ? pwaState.triggerInstall : undefined}
-              style={{
-                background: '#334155',
-                borderRadius: '50%',
-                width: '34px',
-                height: '34px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#38bdf8',
-                cursor: pwaState.isInstallable ? 'pointer' : 'default',
-              }}
-              title="PWA Application"
-            >
-              <Smartphone size={14} />
-            </div>
+            {/* PWA Smartphone Install Badge - ONLY shown if installable AND NOT installed */}
+            {pwaState.isInstallable && !pwaState.isInstalled && (
+              <div
+                onClick={pwaState.triggerInstall}
+                style={{
+                  background: '#334155',
+                  borderRadius: '50%',
+                  width: '34px',
+                  height: '34px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#38bdf8',
+                  cursor: 'pointer',
+                }}
+                title="Install PWA Application"
+              >
+                <Smartphone size={14} />
+              </div>
+            )}
 
-            {/* Badge 3: Export CSV */}
+            {/* Export CSV Data */}
             <button
               onClick={handleExportCSV}
               style={{
@@ -455,98 +446,80 @@ export default function App() {
             >
               <Download size={14} />
             </button>
+
           </div>
 
         </div>
 
-        {/* Main Middle Layout Row inside Top Dark Card */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(220px, 260px) 1fr 54px',
-          gap: '20px',
-          alignItems: 'center',
-        }}>
-          
-          {/* Left Column: Branding Title & Subtitle & Dual Action Buttons */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-              <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--gradient-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <Activity size={20} color="#ffffff" />
+        {/* PROMINENT TREND LINE / AREA GRAPH (DOMINANT VISUAL IN TOP CARD) */}
+        <div style={{ height: '240px', position: 'relative', width: '100%', margin: '14px 0' }}>
+          <GlucoseTrendChart
+            readings={analytics ? analytics.readings_timeline : []}
+            periodDays={periodDays}
+            onPeriodChange={(days) => setPeriodDays(days)}
+            preferredUnit={preferredUnit}
+            onOpenManual={handleOpenManual}
+            isDark={true}
+          />
+        </div>
+
+        {/* Clean Action Footer Bar: Dual Buttons & User Profile Pill */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '10px', flex: 1, maxWidth: '420px' }}>
+            <button className="btn btn-primary" onClick={handleOpenSnap} style={{ flex: 1, padding: '10px 16px', fontSize: '0.86rem' }}>
+              <Camera size={18} /> Snap Photo
+            </button>
+            <button className="btn btn-secondary" onClick={handleOpenManual} style={{ flex: 1, padding: '10px 16px', fontSize: '0.86rem' }}>
+              <Plus size={18} /> Log Manual
+            </button>
+          </div>
+
+          {user ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: '#334155',
+                padding: '5px 14px 5px 6px',
+                borderRadius: '20px',
+                border: '1px solid rgba(255,255,255,0.15)',
+              }}
+            >
+              <div style={{
+                width: '26px',
+                height: '26px',
+                borderRadius: '50%',
+                background: 'var(--gradient-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#ffffff',
+                fontSize: '0.75rem',
+                fontWeight: 700,
+              }}>
+                {user.full_name ? user.full_name.charAt(0).toUpperCase() : 'U'}
               </div>
-              <h1 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#ffffff', margin: 0, lineHeight: 1.1 }}>
-                GlucoTrack <span style={{ color: '#38bdf8' }}>AI</span>
-              </h1>
-            </div>
-            <p style={{ fontSize: '0.78rem', color: '#94a3b8', margin: '0 0 10px', lineHeight: 1.35 }}>
-              AI Glucometer OCR & Multi-User Analytics
-            </p>
-
-            {/* Embedded Medical AI Project Image Graphic */}
-            <div style={{
-              width: '100%',
-              height: '75px',
-              borderRadius: '10px',
-              overflow: 'hidden',
-              marginBottom: '12px',
-              border: '1px solid rgba(56, 189, 248, 0.3)',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-              position: 'relative',
-            }}>
-              <img
-                src="/images/hero_medical_illustration.jpg"
-                alt="AI Glucose Monitoring System"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </div>
-
-            {/* Dual Action Pill Buttons Side-by-Side */}
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button className="btn btn-primary" onClick={handleOpenSnap} style={{ padding: '9px 12px', fontSize: '0.82rem', flex: 1 }}>
-                <Camera size={16} /> Snap Photo
-              </button>
-              <button className="btn btn-secondary" onClick={handleOpenManual} style={{ padding: '9px 12px', fontSize: '0.82rem', flex: 1 }}>
-                <Plus size={16} /> Manual
-              </button>
-            </div>
-          </div>
-
-          {/* Center Column: Glucose Trend Line Chart (Area Chart on Dark Background) */}
-          <div style={{ height: '230px', position: 'relative' }}>
-            <GlucoseTrendChart
-              readings={analytics ? analytics.readings_timeline : []}
-              periodDays={periodDays}
-              onPeriodChange={(days) => setPeriodDays(days)}
-              preferredUnit={preferredUnit}
-              onOpenManual={handleOpenManual}
-              isDark={true}
-            />
-          </div>
-
-          {/* Right Column: Vertical Period Filter Buttons (7D, 14D, 30D, 90D) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
-            {[7, 14, 30, 90].map((days) => (
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#f8fafc' }}>
+                {user.full_name}
+              </span>
               <button
-                key={days}
-                onClick={() => setPeriodDays(days)}
-                style={{
-                  width: '44px',
-                  height: '36px',
-                  borderRadius: '10px',
-                  border: periodDays === days ? 'none' : '1px solid #334155',
-                  background: periodDays === days ? '#0284c7' : '#1e293b',
-                  color: periodDays === days ? '#ffffff' : '#94a3b8',
-                  fontWeight: 700,
-                  fontSize: '0.75rem',
-                  cursor: 'pointer',
-                  transition: 'var(--transition)',
-                  boxShadow: periodDays === days ? '0 4px 12px rgba(2, 132, 199, 0.4)' : 'none',
-                }}
+                onClick={handleLogout}
+                style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '2px', display: 'flex', alignItems: 'center' }}
+                title="Sign Out"
               >
-                {days}D
+                <LogOut size={14} />
               </button>
-            ))}
-          </div>
-
+            </div>
+          ) : (
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => setIsAuthOpen(true)}
+              style={{ padding: '6px 14px', borderRadius: '16px', fontSize: '0.78rem' }}
+            >
+              <LogIn size={14} /> Patient Login
+            </button>
+          )}
         </div>
 
         {/* Bottom Center Circular Joint Node connecting top and bottom sections */}

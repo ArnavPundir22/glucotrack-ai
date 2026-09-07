@@ -223,7 +223,7 @@ export default function SidePanel({
             <div className="side-panel-section-title">Tools & Status</div>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {pwaState?.isInstallable && (
+              {pwaState?.isInstallable && !pwaState?.isInstalled && (
                 <button className="side-panel-tool-btn" onClick={pwaState.triggerInstall}>
                   <Smartphone size={16} color="#38bdf8" />
                   <span>Install App on Device</span>
