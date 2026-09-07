@@ -2,10 +2,16 @@ import sqlite3 from 'sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import fs from 'fs';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const dbPath = process.env.DB_PATH || path.join(__dirname, '..', 'glucotrack.db');
+// Persistent disk auto-detection: checks process.env.DB_DIR, Render mount path /app/data, or local root
+const dataDir = process.env.DB_DIR || (fs.existsSync('/app/data') ? '/app/data' : path.join(__dirname, '..'));
+const dbPath = path.join(dataDir, 'glucotrack.db');
+
+console.log(`[DB Path]: Initializing SQLite database at ${dbPath}`);
 const sqlite = new sqlite3.Database(dbPath);
 
 export const db = {
