@@ -51,6 +51,7 @@ To keep documentation clean, modular, and professional, detailed specifications 
 | 👁️ **[AI Vision & Insights](file:///home/dell/glucotrack-ai/docs/AI_VISION_AND_INSIGHTS.md)** | `docs/AI_VISION_AND_INSIGHTS.md` | Computer Vision prompt geometry rules, 7-segment display OCR parsing, API key fallback rotation, and eA1c/TIR statistical formulas. |
 | 🎨 **[Frontend & PWA Guide](file:///home/dell/glucotrack-ai/docs/FRONTEND_AND_PWA.md)** | `docs/FRONTEND_AND_PWA.md` | React 18 component taxonomy, custom event reactivity (`readingsUpdated`), Recharts visualization engine, and Service Worker offline caching. |
 | 🚀 **[Development & Deployment](file:///home/dell/glucotrack-ai/docs/DEVELOPMENT_AND_DEPLOYMENT.md)** | `docs/DEVELOPMENT_AND_DEPLOYMENT.md` | Local setup guide, environment variables reference (`.env.example`), Render.com deployment blueprint (`render.yaml`), and keep-alive worker. |
+| 📋 **[Design Specifications](file:///home/dell/glucotrack-ai/docs/specs/)** | `docs/specs/` | Historical PRD, Functional (FAD), System (SAD), Technical (TAD), and Roadmap (phases.md) design documentation. |
 
 ---
 
@@ -88,12 +89,13 @@ npm run dev
 
 ```
 glucotrack-ai/
-├── docs/                       # Specialized sub-documentation directory
+├── docs/                       # Comprehensive documentation directory
 │   ├── AI_VISION_AND_INSIGHTS.md
 │   ├── API_SPECIFICATION.md
 │   ├── ARCHITECTURE.md
 │   ├── DEVELOPMENT_AND_DEPLOYMENT.md
-│   └── FRONTEND_AND_PWA.md
+│   ├── FRONTEND_AND_PWA.md
+│   └── specs/                  # PRD, FAD, SAD, TAD & roadmap design specifications
 ├── server/                     # Express API Backend
 │   ├── index.js                # Server entry point & keep-alive worker
 │   ├── db.js                   # Dual DB driver (SQLite & PostgreSQL)
