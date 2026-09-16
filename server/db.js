@@ -2,10 +2,19 @@ import sqlite3 from 'sqlite3';
 import pg from 'pg';
 import path from 'path';
 import fs from 'fs';
+import dns from 'dns';
 import { fileURLToPath } from 'url';
+
+// Force Node.js DNS resolver to prefer IPv4 over IPv6 for Render & cloud deployment compatibility
+try {
+  dns.setDefaultResultOrder('ipv4first');
+} catch (e) {
+  // Ignored on older node versions
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 
 const isPg = Boolean(process.env.DATABASE_URL);
 
