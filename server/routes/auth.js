@@ -143,6 +143,21 @@ router.get('/me', verifyToken, async (req, res) => {
   }
 });
 
+// Helper function to reliably parse expiration timestamps across PostgreSQL, SQLite, and JS Date objects
+function parseExpiryTimestamp(val) {
+  if (!val) return 0;
+  if (typeof val === 'number') return val;
+  if (val instanceof Date) return val.getTime();
+  const str = String(val).trim();
+  if (/^\d+$/.test(str)) return parseInt(str, 10);
+  let iso = str.replace(' ', 'T');
+  if (!iso.endsWith('Z') && !iso.includes('+') && !iso.includes('-')) {
+    iso += 'Z';
+  }
+  const parsed = new Date(iso).getTime();
+  return isNaN(parsed) ? new Date(str).getTime() : parsed;
+}
+
 // 4. Request Password Reset Code
 router.post('/forgot-password', async (req, res) => {
   try {
@@ -175,6 +190,8 @@ router.post('/forgot-password', async (req, res) => {
       [resetCode, expiresAt, user.id]
     );
 
+    console.log(`[Forgot Password]: Generated code ${resetCode} for user ${user.id} (${cleanEmail}), expires at ${expiresAt}`);
+
     // Send email via Resend / SMTP (or console simulator if not configured)
     const emailResult = await sendPasswordResetEmail(cleanEmail, resetCode, user.full_name);
 
@@ -206,7 +223,7 @@ router.post('/verify-reset-code', async (req, res) => {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    const cleanCode = code.trim();
+    const cleanCode = String(code).trim();
 
     const user = await db.get('SELECT reset_password_token, reset_password_expires FROM users WHERE email = ?', [cleanEmail]);
 
@@ -217,15 +234,19 @@ router.post('/verify-reset-code', async (req, res) => {
       });
     }
 
-    if (user.reset_password_token !== cleanCode) {
+    const dbToken = String(user.reset_password_token).trim();
+    if (dbToken !== cleanCode) {
+      console.warn(`[Verify Code Mismatch]: Received code '${cleanCode}', stored code is '${dbToken}'`);
       return res.status(400).json({
         status: 'error',
         message: 'Invalid verification code. Please check and try again.',
       });
     }
 
-    const expiry = new Date(user.reset_password_expires).getTime();
-    if (isNaN(expiry) || Date.now() > expiry) {
+    const expiry = parseExpiryTimestamp(user.reset_password_expires);
+    const now = Date.now();
+    if (isNaN(expiry) || now > expiry) {
+      console.warn(`[Verify Code Expired]: Expiry timestamp ${expiry} vs current timestamp ${now}`);
       return res.status(400).json({
         status: 'error',
         message: 'Password reset code has expired. Please request a new code.',
@@ -262,7 +283,7 @@ router.post('/reset-password', async (req, res) => {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    const cleanCode = code.trim();
+    const cleanCode = String(code).trim();
 
     const user = await db.get('SELECT * FROM users WHERE email = ?', [cleanEmail]);
 
@@ -273,15 +294,19 @@ router.post('/reset-password', async (req, res) => {
       });
     }
 
-    if (user.reset_password_token !== cleanCode) {
+    const dbToken = String(user.reset_password_token).trim();
+    if (dbToken !== cleanCode) {
+      console.warn(`[Reset Password Mismatch]: Received code '${cleanCode}', stored code is '${dbToken}'`);
       return res.status(400).json({
         status: 'error',
         message: 'Invalid verification code.',
       });
     }
 
-    const expiry = new Date(user.reset_password_expires).getTime();
-    if (isNaN(expiry) || Date.now() > expiry) {
+    const expiry = parseExpiryTimestamp(user.reset_password_expires);
+    const now = Date.now();
+    if (isNaN(expiry) || now > expiry) {
+      console.warn(`[Reset Password Expired]: Expiry timestamp ${expiry} vs current timestamp ${now}`);
       return res.status(400).json({
         status: 'error',
         message: 'Verification code has expired. Please request a new reset code.',
