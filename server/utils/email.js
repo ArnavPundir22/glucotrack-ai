@@ -1,12 +1,13 @@
 import nodemailer from 'nodemailer';
 
 /**
- * Send password reset email to user using HTTP API (Resend / SendGrid - works on Render) or SMTP / Simulator
+ * Send password reset email to user using HTTP API (Resend / Brevo / SendGrid - works on Render) or SMTP / Simulator
  * @param {string} toEmail - Recipient email address
  * @param {string} resetCode - 6-digit verification code
  * @param {string} userName - Full name of the user
  */
 export async function sendPasswordResetEmail(toEmail, resetCode, userName = 'GlucoTrack User') {
+  const brevoApiKey = process.env.BREVO_API_KEY;
   const resendApiKey = process.env.RESEND_API_KEY;
   const sendgridApiKey = process.env.SENDGRID_API_KEY;
   const smtpHost = process.env.SMTP_HOST;
@@ -46,7 +47,38 @@ export async function sendPasswordResetEmail(toEmail, resetCode, userName = 'Glu
     </div>
   `;
 
-  // 1. Resend HTTP API (Port 443 HTTPS - Works on Render)
+  // 1. Brevo HTTP API (Port 443 HTTPS - Free 300 emails/day to ANY recipient without domain setup)
+  if (brevoApiKey) {
+    try {
+      console.log(`[Email Service]: Sending email via Brevo HTTP API to ${toEmail}...`);
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'api-key': brevoApiKey,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          sender: { name: 'GlucoTrack AI', email: process.env.EMAIL_FROM_ADDRESS || 'no-reply@glucotrack.ai' },
+          to: [{ email: toEmail }],
+          subject,
+          htmlContent,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log(`[Email Service]: Email delivered via Brevo HTTP API. Message ID: ${data.messageId}`);
+        return { success: true, id: data.messageId, mode: 'brevo_http' };
+      } else {
+        console.error('[Email Service Error - Brevo]:', data);
+      }
+    } catch (err) {
+      console.error('[Email Service Exception - Brevo]:', err.message);
+    }
+  }
+
+  // 2. Resend HTTP API (Port 443 HTTPS - Works on Render)
   if (resendApiKey) {
     try {
       console.log(`[Email Service]: Sending email via Resend HTTP API to ${toEmail}...`);
@@ -79,7 +111,7 @@ export async function sendPasswordResetEmail(toEmail, resetCode, userName = 'Glu
     }
   }
 
-  // 2. SendGrid HTTP API (Port 443 HTTPS - Works on Render)
+  // 3. SendGrid HTTP API (Port 443 HTTPS - Works on Render)
   if (sendgridApiKey) {
     try {
       console.log(`[Email Service]: Sending email via SendGrid HTTP API to ${toEmail}...`);
@@ -109,7 +141,7 @@ export async function sendPasswordResetEmail(toEmail, resetCode, userName = 'Glu
     }
   }
 
-  // 3. SMTP (Nodemailer - Port 587 / 465)
+  // 4. SMTP (Nodemailer - Port 587 / 465)
   if (smtpHost && smtpUser && smtpPass) {
     try {
       const transporter = nodemailer.createTransport({
@@ -133,12 +165,11 @@ export async function sendPasswordResetEmail(toEmail, resetCode, userName = 'Glu
     }
   }
 
-  // 4. Simulator / Fallback Mode (Logs to server console & demo banner)
+  // 5. Simulator / Fallback Mode (Logs to server console & demo banner)
   console.log(`=======================================================`);
   console.log(` 📧 [EMAIL SERVICE SIMULATOR - DEV & RENDER DEMO MODE]`);
   console.log(` 📩 To: ${toEmail}`);
   console.log(` 🔑 Reset Code: ${resetCode}`);
-  console.log(` 💡 Tip for Render: Set RESEND_API_KEY in Render Environment Variables!`);
   console.log(`=======================================================`);
   return { success: true, mode: 'simulator' };
 }
