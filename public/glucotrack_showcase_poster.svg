@@ -1,0 +1,493 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080C14"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#050811"/>
+    </linearGradient>
+
+    <!-- Glowing Aura Gradients -->
+    <radialGradient id="auraCyan" cx="20%" cy="20%" r="50%">
+      <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#06B6D4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="auraEmerald" cx="70%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="auraIndigo" cx="80%" cy="80%" r="45%">
+      <stop offset="0%" stop-color="#6366F1" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#6366F1" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Card Background Gradient -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(30, 41, 59, 0.70)"/>
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 0.85)"/>
+    </linearGradient>
+
+    <!-- Glass Stroke Gradient -->
+    <linearGradient id="glassStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255, 255, 255, 0.18)"/>
+      <stop offset="100%" stop-color="rgba(255, 255, 255, 0.03)"/>
+    </linearGradient>
+
+    <!-- Accent Color Gradients -->
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#34D399"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="50%" stop-color="#06B6D4"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#CBD5E1"/>
+    </linearGradient>
+
+    <!-- Graph Shading Gradient -->
+    <linearGradient id="graphFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#06B6D4" stop-opacity="0.0"/>
+    </linearGradient>
+    <linearGradient id="targetBandFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0.05"/>
+    </linearGradient>
+
+    <!-- Scan Beam Gradient -->
+    <linearGradient id="scanBeam" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#10B981" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#06B6D4" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Drop Shadows -->
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="glowEmerald" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- Grid Pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Base Canvas & Grid Background -->
+  <rect width="1920" height="1080" fill="url(#bgGrad)"/>
+  <rect width="1920" height="1080" fill="url(#grid)"/>
+
+  <!-- Glowing Background Orbs -->
+  <circle cx="300" cy="250" r="450" fill="url(#auraCyan)"/>
+  <circle cx="1300" cy="400" r="550" fill="url(#auraEmerald)"/>
+  <circle cx="1600" cy="850" r="400" fill="url(#auraIndigo)"/>
+
+  <!-- ==================== TOP HEADER SECTION ==================== -->
+  <g transform="translate(80, 50)">
+    <!-- Main Logo Box -->
+    <rect x="0" y="0" width="64" height="64" rx="18" fill="rgba(16, 185, 129, 0.1)" stroke="url(#emeraldGrad)" stroke-width="2" filter="url(#glowEmerald)"/>
+    <!-- Logo Symbol (Blood drop + AI sparkles) -->
+    <path d="M 32 14 C 32 14 18 32 18 42 C 18 49.7 24.3 56 32 56 C 39.7 56 46 49.7 46 42 C 46 32 32 14 32 14 Z" fill="url(#logoGrad)"/>
+    <path d="M 32 26 L 34 32 L 40 34 L 34 36 L 32 42 L 30 36 L 24 34 L 30 32 Z" fill="#FFFFFF" opacity="0.95"/>
+
+    <!-- Title & Subtitle -->
+    <text x="84" y="38" font-weight="800" font-size="38" fill="url(#textGrad)" letter-spacing="-0.5">GlucoTrack AI</text>
+    <text x="84" y="60" font-weight="500" font-size="16" fill="#94A3B8" letter-spacing="0.2">Smart Glucometer Vision &amp; Clinical Glycemic Analytics Platform</text>
+
+    <!-- Top Feature Badges (Right Aligned) -->
+    <g transform="translate(1120, 12)">
+      <!-- Badge 1 -->
+      <rect x="0" y="0" width="160" height="38" rx="19" fill="rgba(16, 185, 129, 0.12)" stroke="rgba(16, 185, 129, 0.3)" stroke-width="1"/>
+      <circle cx="20" cy="19" r="5" fill="#10B981" filter="url(#glowEmerald)"/>
+      <text x="34" y="24" font-weight="600" font-size="13" fill="#34D399">Gemini 2.0 OCR</text>
+
+      <!-- Badge 2 -->
+      <rect x="175" y="0" width="165" height="38" rx="19" fill="rgba(6, 182, 212, 0.12)" stroke="rgba(6, 182, 212, 0.3)" stroke-width="1"/>
+      <circle cx="195" cy="19" r="5" fill="#06B6D4" filter="url(#glowCyan)"/>
+      <text x="209" y="24" font-weight="600" font-size="13" fill="#38BDF8">Time-In-Range</text>
+
+      <!-- Badge 3 -->
+      <rect x="355" y="0" width="145" height="38" rx="19" fill="rgba(99, 102, 241, 0.12)" stroke="rgba(99, 102, 241, 0.3)" stroke-width="1"/>
+      <circle cx="375" cy="19" r="5" fill="#818CF8"/>
+      <text x="389" y="24" font-weight="600" font-size="13" fill="#A5B4FC">eA1c Insights</text>
+
+      <!-- Badge 4 -->
+      <rect x="515" y="0" width="130" height="38" rx="19" fill="rgba(245, 158, 11, 0.12)" stroke="rgba(245, 158, 11, 0.3)" stroke-width="1"/>
+      <circle cx="533" cy="19" r="5" fill="#F59E0B"/>
+      <text x="547" y="24" font-weight="600" font-size="13" fill="#FBBF24">PWA Ready</text>
+    </g>
+  </g>
+
+  <!-- ==================== MAIN CONTENT LAYOUT (3 COLUMNS) ==================== -->
+
+  <!-- ==================== COLUMN 1: COMPUTER VISION OCR MODULE ==================== -->
+  <g transform="translate(80, 150)" filter="url(#cardShadow)">
+    <!-- Card Frame -->
+    <rect x="0" y="0" width="540" height="740" rx="24" fill="url(#cardGrad)" stroke="url(#glassStroke)" stroke-width="1.5"/>
+
+    <!-- Section Header -->
+    <text x="32" y="44" font-weight="700" font-size="14" fill="#10B981" letter-spacing="1.5">01 / COMPUTER VISION OCR</text>
+    <text x="32" y="74" font-weight="800" font-size="24" fill="#FFFFFF">Glucometer LCD Scanner</text>
+    <text x="32" y="98" font-weight="400" font-size="14" fill="#94A3B8">Instant 7-segment digital extraction via Gemini 2.0 Flash</text>
+
+    <!-- Smartphone / Camera Frame Mockup -->
+    <g transform="translate(45, 125)">
+      <!-- Outer Phone Body -->
+      <rect x="0" y="0" width="450" height="420" rx="28" fill="#090D16" stroke="rgba(255, 255, 255, 0.15)" stroke-width="2"/>
+
+      <!-- Camera Viewport / Live Scanner Screen -->
+      <rect x="15" y="15" width="420" height="390" rx="20" fill="#050B14"/>
+
+      <!-- Camera View Grid Overlay -->
+      <path d="M 15 145 L 435 145 M 15 275 L 435 275 M 155 15 L 155 405 M 295 15 L 295 405" stroke="rgba(255,255,255,0.05)" stroke-dasharray="4,4"/>
+
+      <!-- Physical Glucometer Device Illustration -->
+      <g transform="translate(70, 70)">
+        <!-- Glucometer Body -->
+        <rect x="0" y="0" width="280" height="180" rx="24" fill="#1E293B" stroke="#334155" stroke-width="2"/>
+        <!-- Brand Name -->
+        <text x="140" y="24" text-anchor="middle" font-weight="700" font-size="12" fill="#64748B" letter-spacing="2">CONTOUR NEXT</text>
+        <!-- LCD Display Screen -->
+        <rect x="30" y="38" width="220" height="100" rx="10" fill="#88A070" stroke="#556B40" stroke-width="2"/>
+        <!-- 7-Segment Segment Ghost Lines (Background) -->
+        <text x="140" y="112" text-anchor="middle" font-family="'Courier New', monospace" font-weight="900" font-size="64" fill="rgba(40, 60, 30, 0.2)">888</text>
+        <!-- Actual LCD Reading "118" -->
+        <text x="140" y="112" text-anchor="middle" font-family="'Courier New', monospace" font-weight="900" font-size="64" fill="#14280A" letter-spacing="4">118</text>
+        <!-- Unit Label -->
+        <text x="215" y="125" font-weight="700" font-size="14" fill="#14280A">mg/dL</text>
+        <!-- Test Strip Insertion Port -->
+        <rect x="110" y="165" width="60" height="15" rx="4" fill="#0F172A"/>
+      </g>
+
+      <!-- Laser Scanner Beam Effect -->
+      <rect x="25" y="170" width="400" height="60" fill="url(#scanBeam)" opacity="0.8"/>
+      <line x1="25" y1="200" x2="435" y2="200" stroke="#10B981" stroke-width="3" filter="url(#glowEmerald)"/>
+
+      <!-- Vision Bounding Box Corners -->
+      <path d="M 85,115 L 85,95 L 105,95 M 345,95 L 365,95 L 365,115 M 365,225 L 365,245 L 345,245 M 105,245 L 85,245 L 85,225" stroke="#06B6D4" stroke-width="3" fill="none" filter="url(#glowCyan)"/>
+
+      <!-- Floating Detection Badge -->
+      <g transform="translate(125, 215)">
+        <rect x="0" y="0" width="200" height="32" rx="16" fill="rgba(6, 182, 212, 0.9)" filter="url(#glowCyan)"/>
+        <text x="100" y="21" text-anchor="middle" font-weight="700" font-size="13" fill="#FFFFFF">DETECTED: 118 mg/dL</text>
+      </g>
+    </g>
+
+    <!-- AI OCR Result Verification Panel -->
+    <g transform="translate(32, 570)">
+      <rect x="0" y="0" width="476" height="135" rx="16" fill="rgba(15, 23, 42, 0.7)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1"/>
+
+      <!-- Verification Row 1 -->
+      <text x="20" y="32" font-weight="600" font-size="14" fill="#94A3B8">Recognized Value:</text>
+      <text x="160" y="32" font-weight="800" font-size="18" fill="#10B981">118 mg/dL</text>
+      <rect x="270" y="16" width="90" height="22" rx="11" fill="rgba(16, 185, 129, 0.15)"/>
+      <text x="315" y="31" text-anchor="middle" font-weight="700" font-size="11" fill="#34D399">99.6% Conf.</text>
+
+      <!-- Verification Row 2 -->
+      <text x="20" y="65" font-weight="600" font-size="14" fill="#94A3B8">Meal Context:</text>
+      <rect x="160" y="48" width="130" height="26" rx="6" fill="rgba(51, 65, 85, 0.8)" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/>
+      <text x="225" y="65" text-anchor="middle" font-weight="600" font-size="13" fill="#F1F5F9">Post-Breakfast 🥣</text>
+
+      <!-- Verification Row 3: Action Buttons -->
+      <rect x="20" y="88" width="215" height="34" rx="8" fill="url(#emeraldGrad)" filter="url(#glowEmerald)"/>
+      <text x="127" y="110" text-anchor="middle" font-weight="700" font-size="13" fill="#042F2E">✓ Confirm &amp; Save Log</text>
+
+      <rect x="248" y="88" width="208" height="34" rx="8" fill="rgba(51, 65, 85, 0.6)" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/>
+      <text x="352" y="110" text-anchor="middle" font-weight="600" font-size="13" fill="#CBD5E1">Edit Manual Entry</text>
+    </g>
+  </g>
+
+  <!-- ==================== COLUMN 2: CLINICAL ANALYTICS DASHBOARD ==================== -->
+  <g transform="translate(650, 150)" filter="url(#cardShadow)">
+
+    <!-- CARD 2A: GLUCOSE TREND LINE CHART (TOP RIGHT) -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="750" height="360" rx="24" fill="url(#cardGrad)" stroke="url(#glassStroke)" stroke-width="1.5"/>
+
+      <text x="32" y="44" font-weight="700" font-size="14" fill="#06B6D4" letter-spacing="1.5">02 / CLINICAL GLYCEMIC METRICS</text>
+      <text x="32" y="74" font-weight="800" font-size="24" fill="#FFFFFF">7-Day Continuous Glucose Trend</text>
+      <text x="32" y="98" font-weight="400" font-size="14" fill="#94A3B8">Interactive target band visualization (70 – 180 mg/dL)</text>
+
+      <!-- Target Range Shaded Band -->
+      <g transform="translate(80, 120)">
+        <!-- Background Y Grid lines -->
+        <line x1="0" y1="0" x2="620" y2="0" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4,4"/>
+        <text x="-12" y="5" text-anchor="end" font-size="12" fill="#64748B">240</text>
+
+        <!-- High Threshold (180 mg/dL) -->
+        <line x1="0" y1="35" x2="620" y2="35" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="6,6" opacity="0.7"/>
+        <text x="-12" y="40" text-anchor="end" font-weight="600" font-size="12" fill="#F59E0B">180</text>
+
+        <!-- Target Zone Band (70 - 180 mg/dL) -->
+        <rect x="0" y="35" width="620" height="110" fill="url(#targetBandFill)"/>
+        <text x="630" y="95" font-weight="700" font-size="11" fill="#10B981">TARGET RANGE</text>
+
+        <!-- Low Threshold (70 mg/dL) -->
+        <line x1="0" y1="145" x2="620" y2="145" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="6,6" opacity="0.7"/>
+        <text x="-12" y="150" text-anchor="end" font-weight="600" font-size="12" fill="#EF4444">70</text>
+
+        <line x1="0" y1="180" x2="620" y2="180" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4,4"/>
+        <text x="-12" y="185" text-anchor="end" font-size="12" fill="#64748B">40</text>
+
+        <!-- X-Axis Labels -->
+        <text x="40" y="205" text-anchor="middle" font-size="13" font-weight="600" fill="#94A3B8">Mon</text>
+        <text x="130" y="205" text-anchor="middle" font-size="13" font-weight="600" fill="#94A3B8">Tue</text>
+        <text x="220" y="205" text-anchor="middle" font-size="13" font-weight="600" fill="#94A3B8">Wed</text>
+        <text x="310" y="205" text-anchor="middle" font-size="13" font-weight="600" fill="#94A3B8">Thu</text>
+        <text x="400" y="205" text-anchor="middle" font-size="13" font-weight="600" fill="#94A3B8">Fri</text>
+        <text x="490" y="205" text-anchor="middle" font-size="13" font-weight="600" fill="#94A3B8">Sat</text>
+        <text x="580" y="205" text-anchor="middle" font-size="13" font-weight="600" fill="#38BDF8">Sun (Today)</text>
+
+        <!-- Shaded Area Under Line -->
+        <path d="M 40,120 Q 85,75 130,55 T 220,105 T 310,40 T 400,125 T 490,95 T 580,102 L 580,180 L 40,180 Z" fill="url(#graphFill)"/>
+
+        <!-- Smooth Glucose Curve Line -->
+        <path d="M 40,120 Q 85,75 130,55 T 220,105 T 310,40 T 400,125 T 490,95 T 580,102" fill="none" stroke="#06B6D4" stroke-width="4" filter="url(#glowCyan)"/>
+
+        <!-- Data Node Circles -->
+        <circle cx="40" cy="120" r="6" fill="#0F172A" stroke="#06B6D4" stroke-width="3"/>
+        <circle cx="130" cy="55" r="6" fill="#0F172A" stroke="#F59E0B" stroke-width="3"/>
+        <circle cx="220" cy="105" r="6" fill="#0F172A" stroke="#10B981" stroke-width="3"/>
+        <circle cx="310" cy="40" r="6" fill="#0F172A" stroke="#F59E0B" stroke-width="3"/>
+        <circle cx="400" cy="125" r="6" fill="#0F172A" stroke="#10B981" stroke-width="3"/>
+        <circle cx="490" cy="95" r="6" fill="#0F172A" stroke="#10B981" stroke-width="3"/>
+
+        <!-- Today Node Highlight -->
+        <circle cx="580" cy="102" r="9" fill="#10B981" stroke="#FFFFFF" stroke-width="3" filter="url(#glowEmerald)"/>
+
+        <!-- Tooltip Node Value -->
+        <g transform="translate(525, 50)">
+          <rect x="0" y="0" width="110" height="32" rx="8" fill="#1E293B" stroke="#10B981" stroke-width="1.5" filter="url(#glowEmerald)"/>
+          <text x="55" y="21" text-anchor="middle" font-weight="800" font-size="13" fill="#34D399">118 mg/dL</text>
+        </g>
+      </g>
+
+      <!-- Key KPI Summary Pills (Bottom of Trend Card) -->
+      <g transform="translate(32, 290)">
+        <!-- KPI 1 -->
+        <rect x="0" y="0" width="155" height="50" rx="12" fill="rgba(15, 23, 42, 0.6)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1"/>
+        <text x="16" y="20" font-weight="500" font-size="11" fill="#94A3B8">AVG GLUCOSE</text>
+        <text x="16" y="40" font-weight="800" font-size="17" fill="#F1F5F9">124 <tspan font-size="12" font-weight="500" fill="#64748B">mg/dL</tspan></text>
+
+        <!-- KPI 2 -->
+        <rect x="172" y="0" width="155" height="50" rx="12" fill="rgba(15, 23, 42, 0.6)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1"/>
+        <text x="188" y="20" font-weight="500" font-size="11" fill="#94A3B8">ESTIMATED A1C</text>
+        <text x="188" y="40" font-weight="800" font-size="17" fill="#38BDF8">5.8% <tspan font-size="12" font-weight="500" fill="#34D399">(-0.4%)</tspan></text>
+
+        <!-- KPI 3 -->
+        <rect x="344" y="0" width="155" height="50" rx="12" fill="rgba(15, 23, 42, 0.6)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1"/>
+        <text x="360" y="20" font-weight="500" font-size="11" fill="#94A3B8">STD DEVIATION</text>
+        <text x="360" y="40" font-weight="800" font-size="17" fill="#F1F5F9">22.4 <tspan font-size="12" font-weight="500" fill="#64748B">mg/dL</tspan></text>
+
+        <!-- KPI 4 -->
+        <rect x="516" y="0" width="170" height="50" rx="12" fill="rgba(15, 23, 42, 0.6)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1"/>
+        <text x="532" y="20" font-weight="500" font-size="11" fill="#94A3B8">VARIABILITY (CV%)</text>
+        <text x="532" y="40" font-weight="800" font-size="17" fill="#10B981">18.1% <tspan font-size="11" font-weight="600" fill="#34D399">Stable</tspan></text>
+      </g>
+    </g>
+
+    <!-- CARD 2B: TIME-IN-RANGE (TIR) DONUT CHART (BOTTOM LEFT) -->
+    <g transform="translate(0, 380)">
+      <rect x="0" y="0" width="360" height="360" rx="24" fill="url(#cardGrad)" stroke="url(#glassStroke)" stroke-width="1.5"/>
+
+      <text x="28" y="40" font-weight="800" font-size="20" fill="#FFFFFF">Time-In-Range (TIR)</text>
+      <text x="28" y="60" font-weight="400" font-size="13" fill="#94A3B8">Clinical 5-Zone Breakdown</text>
+
+      <!-- Donut Chart Center graphic -->
+      <g transform="translate(130, 185)">
+        <!-- Segment 1: In Target Range (78%) -> Emerald Green -->
+        <circle cx="0" cy="0" r="75" fill="none" stroke="#10B981" stroke-width="26" stroke-dasharray="367 100" stroke-dashoffset="0" filter="url(#glowEmerald)"/>
+        <!-- Segment 2: High (14%) -> Amber -->
+        <circle cx="0" cy="0" r="75" fill="none" stroke="#F59E0B" stroke-width="26" stroke-dasharray="66 401" stroke-dashoffset="-367"/>
+        <!-- Segment 3: Low (5%) -> Pink/Red -->
+        <circle cx="0" cy="0" r="75" fill="none" stroke="#EF4444" stroke-width="26" stroke-dasharray="24 443" stroke-dashoffset="-433"/>
+        <!-- Segment 4: Very High (3%) -> Purple -->
+        <circle cx="0" cy="0" r="75" fill="none" stroke="#8B5CF6" stroke-width="26" stroke-dasharray="14 453" stroke-dashoffset="-457"/>
+
+        <!-- Center Text -->
+        <text x="0" y="-4" text-anchor="middle" font-weight="900" font-size="34" fill="#FFFFFF">78%</text>
+        <text x="0" y="18" text-anchor="middle" font-weight="700" font-size="12" fill="#34D399" letter-spacing="1">IN TARGET</text>
+      </g>
+
+      <!-- Legend List -->
+      <g transform="translate(250, 100)">
+        <!-- Legend Item 1 -->
+        <circle cx="0" cy="10" r="6" fill="#10B981"/>
+        <text x="14" y="14" font-weight="700" font-size="13" fill="#FFFFFF">78% <tspan font-weight="400" font-size="12" fill="#94A3B8">Target (70-180)</tspan></text>
+
+        <!-- Legend Item 2 -->
+        <circle cx="0" cy="45" r="6" fill="#F59E0B"/>
+        <text x="14" y="49" font-weight="700" font-size="13" fill="#FFFFFF">14% <tspan font-weight="400" font-size="12" fill="#94A3B8">High (181-250)</tspan></text>
+
+        <!-- Legend Item 3 -->
+        <circle cx="0" cy="80" r="6" fill="#EF4444"/>
+        <text x="14" y="84" font-weight="700" font-size="13" fill="#FFFFFF">5% <tspan font-weight="400" font-size="12" fill="#94A3B8">Low (54-69)</tspan></text>
+
+        <!-- Legend Item 4 -->
+        <circle cx="0" cy="115" r="6" fill="#8B5CF6"/>
+        <text x="14" y="119" font-weight="700" font-size="13" fill="#FFFFFF">3% <tspan font-weight="400" font-size="12" fill="#94A3B8">Very High (&gt;250)</tspan></text>
+      </g>
+
+      <!-- Clinical Standard Met Banner -->
+      <g transform="translate(28, 305)">
+        <rect x="0" y="0" width="304" height="34" rx="8" fill="rgba(16, 185, 129, 0.12)" stroke="rgba(16, 185, 129, 0.3)" stroke-width="1"/>
+        <text x="152" y="22" text-anchor="middle" font-weight="700" font-size="12" fill="#34D399">✓ Exceeds ADA Clinical Target (&gt;70% TIR)</text>
+      </g>
+    </g>
+
+    <!-- CARD 2C: GEMINI 2.0 AI HEALTH INSIGHTS (BOTTOM RIGHT) -->
+    <g transform="translate(380, 380)">
+      <rect x="0" y="0" width="370" height="360" rx="24" fill="url(#cardGrad)" stroke="url(#glassStroke)" stroke-width="1.5"/>
+
+      <!-- Header with AI Sparkle Icon -->
+      <g transform="translate(28, 28)">
+        <rect x="0" y="0" width="36" height="36" rx="10" fill="rgba(99, 102, 241, 0.15)" stroke="rgba(99, 102, 241, 0.4)" stroke-width="1"/>
+        <path d="M 18 8 L 20 14 L 26 16 L 20 18 L 18 24 L 16 18 L 10 16 L 16 14 Z" fill="#818CF8"/>
+      </g>
+      <text x="76" y="44" font-weight="800" font-size="19" fill="#FFFFFF">Gemini AI Insights</text>
+      <text x="76" y="62" font-weight="400" font-size="12" fill="#94A3B8">Automated Metabolic Pattern Recognition</text>
+
+      <!-- AI Insight Cards -->
+      <!-- Insight 1 -->
+      <g transform="translate(24, 85)">
+        <rect x="0" y="0" width="322" height="74" rx="12" fill="rgba(15, 23, 42, 0.6)" stroke="rgba(99, 102, 241, 0.2)" stroke-width="1"/>
+        <text x="16" y="24" font-weight="700" font-size="13" fill="#A5B4FC">🌙 Nocturnal Stability</text>
+        <text x="16" y="46" font-weight="400" font-size="12" fill="#CBD5E1">Overnight fasting glucose perfectly stable</text>
+        <text x="16" y="62" font-weight="400" font-size="12" fill="#CBD5E1">between 88–105 mg/dL across all 7 days.</text>
+      </g>
+
+      <!-- Insight 2 -->
+      <g transform="translate(24, 168)">
+        <rect x="0" y="0" width="322" height="74" rx="12" fill="rgba(15, 23, 42, 0.6)" stroke="rgba(245, 158, 11, 0.2)" stroke-width="1"/>
+        <text x="16" y="24" font-weight="700" font-size="13" fill="#FBBF24">⚡ Post-Lunch Spike Detected</text>
+        <text x="16" y="46" font-weight="400" font-size="12" fill="#CBD5E1">Recurring +42 mg/dL excursion on Thursdays.</text>
+        <text x="16" y="62" font-weight="400" font-size="12" fill="#CBD5E1">Suggested pre-meal walk to smooth glucose curve.</text>
+      </g>
+
+      <!-- Action Button -->
+      <g transform="translate(24, 290)">
+        <rect x="0" y="0" width="322" height="42" rx="12" fill="rgba(99, 102, 241, 0.2)" stroke="#6366F1" stroke-width="1.5" filter="url(#glowCyan)"/>
+        <text x="161" y="26" text-anchor="middle" font-weight="700" font-size="13" fill="#FFFFFF">✨ Generate Full Clinical PDF Summary</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ==================== COLUMN 3: ARCHITECTURE & TECH STACK ==================== -->
+  <g transform="translate(1430, 150)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="410" height="740" rx="24" fill="url(#cardGrad)" stroke="url(#glassStroke)" stroke-width="1.5"/>
+
+    <text x="32" y="44" font-weight="700" font-size="14" fill="#818CF8" letter-spacing="1.5">03 / SYSTEM ARCHITECTURE</text>
+    <text x="32" y="74" font-weight="800" font-size="24" fill="#FFFFFF">Tech Stack Matrix</text>
+    <text x="32" y="98" font-weight="400" font-size="14" fill="#94A3B8">Decoupled, high-performance architecture</text>
+
+    <!-- System Topology Diagram Cards -->
+    <g transform="translate(28, 125)">
+
+      <!-- Component 1: React 18 SPA -->
+      <rect x="0" y="0" width="354" height="72" rx="14" fill="rgba(15, 23, 42, 0.7)" stroke="rgba(56, 189, 248, 0.3)" stroke-width="1"/>
+      <rect x="16" y="16" width="40" height="40" rx="10" fill="rgba(56, 189, 248, 0.15)"/>
+      <text x="36" y="41" text-anchor="middle" font-weight="800" font-size="18" fill="#38BDF8">⚛</text>
+      <text x="70" y="32" font-weight="700" font-size="15" fill="#FFFFFF">React 18 &amp; Vite SPA</text>
+      <text x="70" y="52" font-weight="400" font-size="12" fill="#94A3B8">Recharts • Tailwind Glassmorphism • PWA</text>
+
+      <!-- Connecting Arrow 1 -->
+      <path d="M 177,72 L 177,92" stroke="#06B6D4" stroke-width="2" stroke-dasharray="3,3"/>
+
+      <!-- Component 2: Express Node.js API -->
+      <g transform="translate(0, 92)">
+        <rect x="0" y="0" width="354" height="72" rx="14" fill="rgba(15, 23, 42, 0.7)" stroke="rgba(16, 185, 129, 0.3)" stroke-width="1"/>
+        <rect x="16" y="16" width="40" height="40" rx="10" fill="rgba(16, 185, 129, 0.15)"/>
+        <text x="36" y="41" text-anchor="middle" font-weight="800" font-size="16" fill="#34D399">EX</text>
+        <text x="70" y="32" font-weight="700" font-size="15" fill="#FFFFFF">Express API Engine</text>
+        <text x="70" y="52" font-weight="400" font-size="12" fill="#94A3B8">JWT Auth • OCR Route • Report Generator</text>
+      </g>
+
+      <!-- Connecting Arrow 2 -->
+      <path d="M 177,164 L 177,184" stroke="#10B981" stroke-width="2" stroke-dasharray="3,3"/>
+
+      <!-- Component 3: Google Gemini Vision AI -->
+      <g transform="translate(0, 184)">
+        <rect x="0" y="0" width="354" height="72" rx="14" fill="rgba(15, 23, 42, 0.7)" stroke="rgba(99, 102, 241, 0.4)" stroke-width="1.5" filter="url(#glowCyan)"/>
+        <rect x="16" y="16" width="40" height="40" rx="10" fill="rgba(99, 102, 241, 0.2)"/>
+        <text x="36" y="41" text-anchor="middle" font-weight="800" font-size="16" fill="#818CF8">✦</text>
+        <text x="70" y="32" font-weight="700" font-size="15" fill="#FFFFFF">Google Gemini 2.0 Flash</text>
+        <text x="70" y="52" font-weight="400" font-size="12" fill="#A5B4FC">Vision 7-Segment OCR • AI Health Advice</text>
+      </g>
+
+      <!-- Connecting Arrow 3 -->
+      <path d="M 177,256 L 177,276" stroke="#6366F1" stroke-width="2" stroke-dasharray="3,3"/>
+
+      <!-- Component 4: Dual Database Engine -->
+      <g transform="translate(0, 276)">
+        <rect x="0" y="0" width="354" height="72" rx="14" fill="rgba(15, 23, 42, 0.7)" stroke="rgba(245, 158, 11, 0.3)" stroke-width="1"/>
+        <rect x="16" y="16" width="40" height="40" rx="10" fill="rgba(245, 158, 11, 0.15)"/>
+        <text x="36" y="41" text-anchor="middle" font-weight="800" font-size="16" fill="#FBBF24">🗄</text>
+        <text x="70" y="32" font-weight="700" font-size="15" fill="#FFFFFF">Dual DB Driver Engine</text>
+        <text x="70" y="52" font-weight="400" font-size="12" fill="#94A3B8">SQLite3 (Dev) / PostgreSQL (Prod Cloud)</text>
+      </g>
+    </g>
+
+    <!-- Feature Checklist Grid -->
+    <g transform="translate(28, 500)">
+      <text x="0" y="0" font-weight="700" font-size="14" fill="#F1F5F9" letter-spacing="1">KEY PRODUCT CAPABILITIES</text>
+
+      <g transform="translate(0, 18)">
+        <!-- Bullet 1 -->
+        <circle cx="8" cy="8" r="4" fill="#10B981"/>
+        <text x="22" y="12" font-weight="500" font-size="13" fill="#CBD5E1">Zero-Friction Camera OCR Capture</text>
+
+        <!-- Bullet 2 -->
+        <circle cx="8" cy="38" r="4" fill="#06B6D4"/>
+        <text x="22" y="42" font-weight="500" font-size="13" fill="#CBD5E1">ADAG Standard eA1c Calculation</text>
+
+        <!-- Bullet 3 -->
+        <circle cx="8" cy="68" r="4" fill="#818CF8"/>
+        <text x="22" y="72" font-weight="500" font-size="13" fill="#CBD5E1">Statistical Glycemic Variability (CV%)</text>
+
+        <!-- Bullet 4 -->
+        <circle cx="8" cy="98" r="4" fill="#F59E0B"/>
+        <text x="22" y="102" font-weight="500" font-size="13" fill="#CBD5E1">Meal Context Categorization</text>
+
+        <!-- Bullet 5 -->
+        <circle cx="8" cy="128" r="4" fill="#EC4899"/>
+        <text x="22" y="132" font-weight="500" font-size="13" fill="#CBD5E1">Offline Service Worker PWA Caching</text>
+
+        <!-- Bullet 6 -->
+        <circle cx="8" cy="158" r="4" fill="#34D399"/>
+        <text x="22" y="162" font-weight="500" font-size="13" fill="#CBD5E1">Automated PDF &amp; CSV Data Export</text>
+      </g>
+    </g>
+
+  </g>
+
+  <!-- ==================== BOTTOM FOOTER BAR ==================== -->
+  <g transform="translate(80, 925)">
+    <line x1="0" y1="0" x2="1760" y2="0" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+    <!-- Left Footer -->
+    <text x="0" y="32" font-weight="600" font-size="14" fill="#64748B">GlucoTrack AI Architecture Showcase</text>
+    <text x="0" y="52" font-weight="500" font-size="13" fill="#10B981">github.com/ArnavPundir22/glucotrack-ai</text>
+
+    <!-- Center Footer -->
+    <text x="880" y="40" text-anchor="middle" font-weight="500" font-size="13" fill="#94A3B8">Designed for Zero-Friction Blood Glucose Tracking &amp; Intelligent Clinical Monitoring</text>
+
+    <!-- Right Footer -->
+    <text x="1760" y="32" text-anchor="end" font-weight="600" font-size="14" fill="#64748B">Production Release v1.0.0</text>
+    <text x="1760" y="52" text-anchor="end" font-weight="500" font-size="13" fill="#38BDF8">Google Gemini 2.0 Flash • React 18 • Express</text>
+  </g>
+</svg>

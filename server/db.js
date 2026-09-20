@@ -109,6 +109,8 @@ export async function initDatabase() {
         target_low_mgdl INT DEFAULT 70,
         target_high_mgdl INT DEFAULT 180,
         preferred_unit VARCHAR(50) DEFAULT 'mg/dL',
+        reset_password_token VARCHAR(255),
+        reset_password_expires TIMESTAMP,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 
@@ -145,6 +147,13 @@ export async function initDatabase() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
+
+    try {
+      await db.exec(`ALTER TABLE users ADD COLUMN IF NOT EXISTS reset_password_token VARCHAR(255);`);
+      await db.exec(`ALTER TABLE users ADD COLUMN IF NOT EXISTS reset_password_expires TIMESTAMP;`);
+    } catch (err) {
+      // Columns may already exist
+    }
   } else {
     await db.exec(`
       CREATE TABLE IF NOT EXISTS users (
@@ -155,6 +164,8 @@ export async function initDatabase() {
         target_low_mgdl INTEGER DEFAULT 70,
         target_high_mgdl INTEGER DEFAULT 180,
         preferred_unit TEXT DEFAULT 'mg/dL',
+        reset_password_token TEXT,
+        reset_password_expires DATETIME,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
 
@@ -197,9 +208,15 @@ export async function initDatabase() {
 
     try {
       await db.exec(`ALTER TABLE users ADD COLUMN password_hash TEXT;`);
-    } catch (err) {
-      // Column exists
-    }
+    } catch (err) {}
+
+    try {
+      await db.exec(`ALTER TABLE users ADD COLUMN reset_password_token TEXT;`);
+    } catch (err) {}
+
+    try {
+      await db.exec(`ALTER TABLE users ADD COLUMN reset_password_expires DATETIME;`);
+    } catch (err) {}
   }
 }
 

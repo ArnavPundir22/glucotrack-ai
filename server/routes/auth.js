@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from '../db.js';
 import { JWT_SECRET, verifyToken } from '../middleware/auth.js';
+import { sendPasswordResetEmail } from '../utils/email.js';
 
 const router = express.Router();
 
@@ -139,6 +140,181 @@ router.get('/me', verifyToken, async (req, res) => {
   } catch (err) {
     console.error('[Auth Me Error]:', err);
     res.status(500).json({ status: 'error', message: 'Failed to fetch user profile.' });
+  }
+});
+
+// 4. Request Password Reset Code
+router.post('/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Email address is required.',
+      });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const user = await db.get('SELECT id, full_name FROM users WHERE email = ?', [cleanEmail]);
+
+    if (!user) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'No account found with this email address. Please check the spelling or sign up.',
+      });
+    }
+
+    // Generate 6-digit numeric reset code
+    const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+    // Set 1-hour expiration timestamp
+    const expiresAt = new Date(Date.now() + 3600000).toISOString();
+
+    await db.run(
+      'UPDATE users SET reset_password_token = ?, reset_password_expires = ? WHERE id = ?',
+      [resetCode, expiresAt, user.id]
+    );
+
+    // Send email via SMTP (or console simulator if SMTP is not configured)
+    await sendPasswordResetEmail(cleanEmail, resetCode, user.full_name);
+
+    res.json({
+      status: 'success',
+      message: `Password reset code sent to ${cleanEmail}.`,
+      resetCode, // Included for dev/demo experience
+    });
+  } catch (err) {
+    console.error('[Forgot Password Error]:', err);
+    res.status(500).json({ status: 'error', message: 'Failed to process password reset request.' });
+  }
+});
+
+// 5. Verify Password Reset Code
+router.post('/verify-reset-code', async (req, res) => {
+  try {
+    const { email, code } = req.body;
+
+    if (!email || !code) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Email and reset code are required.',
+      });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanCode = code.trim();
+
+    const user = await db.get('SELECT reset_password_token, reset_password_expires FROM users WHERE email = ?', [cleanEmail]);
+
+    if (!user || !user.reset_password_token) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid password reset request or code.',
+      });
+    }
+
+    if (user.reset_password_token !== cleanCode) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid verification code. Please check and try again.',
+      });
+    }
+
+    const expiry = new Date(user.reset_password_expires).getTime();
+    if (isNaN(expiry) || Date.now() > expiry) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Password reset code has expired. Please request a new code.',
+      });
+    }
+
+    res.json({
+      status: 'success',
+      message: 'Verification code is valid.',
+    });
+  } catch (err) {
+    console.error('[Verify Reset Code Error]:', err);
+    res.status(500).json({ status: 'error', message: 'Failed to verify reset code.' });
+  }
+});
+
+// 6. Reset Password
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { email, code, newPassword } = req.body;
+
+    if (!email || !code || !newPassword) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Email, verification code, and new password are required.',
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Password must be at least 6 characters long.',
+      });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanCode = code.trim();
+
+    const user = await db.get('SELECT * FROM users WHERE email = ?', [cleanEmail]);
+
+    if (!user || !user.reset_password_token) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid password reset request.',
+      });
+    }
+
+    if (user.reset_password_token !== cleanCode) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid verification code.',
+      });
+    }
+
+    const expiry = new Date(user.reset_password_expires).getTime();
+    if (isNaN(expiry) || Date.now() > expiry) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Verification code has expired. Please request a new reset code.',
+      });
+    }
+
+    // Hash new password
+    const saltRounds = 10;
+    const password_hash = await bcrypt.hash(newPassword, saltRounds);
+
+    // Update user password and clear reset token & expiration
+    await db.run(
+      'UPDATE users SET password_hash = ?, reset_password_token = NULL, reset_password_expires = NULL WHERE id = ?',
+      [password_hash, user.id]
+    );
+
+    // Issue new JWT token for auto-login
+    const token = jwt.sign(
+      { id: user.id, email: user.email, full_name: user.full_name },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
+    res.json({
+      status: 'success',
+      message: 'Password reset successfully! You are now logged in.',
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        full_name: user.full_name,
+        preferred_unit: user.preferred_unit || 'mg/dL',
+      },
+    });
+  } catch (err) {
+    console.error('[Reset Password Error]:', err);
+    res.status(500).json({ status: 'error', message: 'Failed to reset password. Please try again.' });
   }
 });
 
