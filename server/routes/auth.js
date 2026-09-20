@@ -175,13 +175,17 @@ router.post('/forgot-password', async (req, res) => {
       [resetCode, expiresAt, user.id]
     );
 
-    // Send email via SMTP (or console simulator if SMTP is not configured)
-    await sendPasswordResetEmail(cleanEmail, resetCode, user.full_name);
+    // Send email via Resend / SMTP (or console simulator if not configured)
+    const emailResult = await sendPasswordResetEmail(cleanEmail, resetCode, user.full_name);
+
+    const isRealEmailSent = emailResult && emailResult.success && emailResult.mode !== 'simulator';
 
     res.json({
       status: 'success',
-      message: `Password reset code sent to ${cleanEmail}.`,
-      resetCode, // Included for dev/demo experience
+      message: isRealEmailSent
+        ? `A 6-digit password reset code has been sent to ${cleanEmail}.`
+        : `Password reset code generated for ${cleanEmail}.`,
+      ...(isRealEmailSent ? {} : { resetCode }),
     });
   } catch (err) {
     console.error('[Forgot Password Error]:', err);

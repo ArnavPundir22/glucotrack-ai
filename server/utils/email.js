@@ -70,6 +70,9 @@ export async function sendPasswordResetEmail(toEmail, resetCode, userName = 'Glu
         return { success: true, id: data.id, mode: 'resend_http' };
       } else {
         console.error('[Email Service Error - Resend]:', data);
+        if (data.statusCode === 403 || (data.message && data.message.includes('onboarding@resend.dev'))) {
+          console.warn('[Resend Notice]: onboarding@resend.dev free domain only permits sending emails to the email address registered on your Resend account. To send to any recipient, add a custom domain in Resend dashboard or use your registered email for testing.');
+        }
       }
     } catch (err) {
       console.error('[Email Service Exception - Resend]:', err.message);
