@@ -64,7 +64,7 @@ app.listen(PORT, () => {
   console.log(`=======================================================`);
 
   // Render Anti-Idle Keep-Alive Worker (Self-pings every 4 minutes to keep instance awake 24/7)
-  const PING_INTERVAL_MS = 4 * 60 * 1000; // 4 minutes
+  const PING_INTERVAL_MS = 10 * 60 * 1000; // 10 minutes
   const RENDER_APP_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
 
   setInterval(async () => {
